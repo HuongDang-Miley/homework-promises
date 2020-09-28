@@ -5,6 +5,22 @@
 // create a variable randomNum that creates a random number between 1 and 20
 // use it as your argument to invoke your compareToTen function
 
+
+// const compareToTen = (num) => {
+//   return new Promise((resolve, reject) => {
+//     num >= 10
+//     ? resolve(num)
+//     : reject(num)
+//   }) 
+// }
+
+// let randomNum = Math.floor(Math.random()*20 +1)
+
+// compareToTen(randomNum)
+// .then((num) => console.log(`${num} is greater than or equal to 10, resolved!`))
+// .catch((num) => console.log(`${num} is less than 10, error!`))
+
+
 //2.
 // create a global variable called order. It will hold a string with whatever drink you want to order, for example, a 'Slurpy'
 //create a promise called drink
@@ -19,8 +35,20 @@
 // When the order resolves, it should log 'Server Returns:' and the resolve message.
 // Handle the catch. It should log 'Sorry we are all out of <whatever the order is>'
 
-// Test by changing the value of orderCannotBeFilled between true and false
+// const order = 'coke'
+// const drink = new Promise((resolve, reject) => {
+//   console.log(`Server says: 'I'll be right back with your ${order}'`)
+//   let orderCannotBeFilled = true
+//   orderCannotBeFilled === true
+//   ? setTimeout(reject(), 2000)
+//   : setTimeout(resolve(), 4000)
+// })
 
+// drink
+//   .then(() => console.log(`Server returns: 'Here is your ${order}'`))
+//   .catch(() => console.log(`Server returns: 'Sorry we are all out of ${order}'`))
+
+// Test by changing the value of orderCannotBeFilled between true and false
 // SAMPLE OUTPUT:
 // resolve out put should be
 // Server says: "I'll be right back with your Slurpy"
@@ -41,6 +69,69 @@
 
 const arrayOfWords = ['cucumber', 'tomatos', 'avocado']; //returns ['CUCUMBER','TOMATOES','AVOCADO']
 const complicatedArray = ['cucumber', 44, true]; //returns "Error Not All Items are strings"
+
+const makeAllCaps = (arr) => {
+  return new Promise((resolve, reject) => {
+    let stringOnly = true
+
+    // arr.forEach((item) => {
+    //   typeof item === 'string'
+    //     ? stringOnly = true
+    //     : stringOnly = false
+    // })
+
+    for (const item of arr) {
+      typeof item === 'string'
+      ? stringOnly = true
+      : stringOnly = false
+    }
+
+    stringOnly === true
+      ? resolve(arr)
+      : reject(arr)
+
+  })
+}
+
+makeAllCaps(arrayOfWords)
+  .then((arr) => {
+    let upperCaseArr = arr.map((item) => item.toUpperCase())
+    console.log(upperCaseArr)
+  })
+  .catch((error) => console.log("There is an error: ${error}"))
+
+const sortWords = (arr) => {
+  return new Promise((resolve, reject) => {
+    let stringOnly = true
+
+    // arr.forEach((item) => {
+    //   typeof item === 'string'
+    //     ? stringOnly = true
+    //     : stringOnly = false
+    // })
+
+    for (const item of arr) {
+      typeof item === 'string'
+      ? stringOnly = true
+      : stringOnly = false
+    }
+
+    stringOnly === true
+      ? resolve(arr)
+      : reject(arr)
+
+  })
+}
+
+sortWords(arrayOfWords)
+  .then((arr) => console.log(arr.sort()))
+  .catch((error) => console.log("There is an error: ${error}"))
+
+// // chain functions Not working
+// let capFirst = makeAllCaps(arrayOfWords)
+// let sortSecond = sortWords(capFirst)
+
+
 
 //4.
 // a. Create a variable, totalSales that creates a promise.
