@@ -6,19 +6,19 @@
 // use it as your argument to invoke your compareToTen function
 
 
-// const compareToTen = (num) => {
-//   return new Promise((resolve, reject) => {
-//     num >= 10
-//     ? resolve(num)
-//     : reject(num)
-//   }) 
-// }
+const compareToTen = (num) => {
+  return new Promise((resolve, reject) => {
+    num >= 10
+    ? resolve(num)
+    : reject(num)
+  }) 
+}
 
-// let randomNum = Math.floor(Math.random()*20 +1)
+let randomNum = Math.floor(Math.random()*20 +1)
 
-// compareToTen(randomNum)
-// .then((num) => console.log(`${num} is greater than or equal to 10, resolved!`))
-// .catch((num) => console.log(`${num} is less than 10, error!`))
+compareToTen(randomNum)
+.then((num) => console.log(`${num} is greater than or equal to 10, resolved!`))
+.catch((num) => console.log(`${num} is less than 10, error!`))
 
 
 //2.
@@ -35,18 +35,18 @@
 // When the order resolves, it should log 'Server Returns:' and the resolve message.
 // Handle the catch. It should log 'Sorry we are all out of <whatever the order is>'
 
-// const order = 'coke'
-// const drink = new Promise((resolve, reject) => {
-//   console.log(`Server says: 'I'll be right back with your ${order}'`)
-//   let orderCannotBeFilled = true
-//   orderCannotBeFilled === true
-//   ? setTimeout(reject(), 2000)
-//   : setTimeout(resolve(), 4000)
-// })
+const order = 'coke'
+const drink = new Promise((resolve, reject) => {
+  console.log(`Server says: 'I'll be right back with your ${order}'`)
+  let orderCannotBeFilled = false
+  orderCannotBeFilled === true
+  ? setTimeout(reject(), 2000)
+  : setTimeout(resolve(), 4000)
+})
 
-// drink
-//   .then(() => console.log(`Server returns: 'Here is your ${order}'`))
-//   .catch(() => console.log(`Server returns: 'Sorry we are all out of ${order}'`))
+drink
+  .then(() => console.log(`Server returns: 'Here is your ${order}'`))
+  .catch(() => console.log(`Server returns: 'Sorry we are all out of ${order}'`))
 
 // Test by changing the value of orderCannotBeFilled between true and false
 // SAMPLE OUTPUT:
@@ -70,78 +70,46 @@
 const arrayOfWords = ['cucumber', 'tomatos', 'avocado']; //returns ['CUCUMBER','TOMATOES','AVOCADO']
 const complicatedArray = ['cucumber', 44, true]; //returns "Error Not All Items are strings"
 
-const makeAllCaps = (arr) => {
+const makeAllCaps = (arr) => arr.map((item) => item.toUpperCase())
+const sortWords = (arr) => arr.sort()
+
+const checkArrString = (arr) => {
   return new Promise((resolve, reject) => {
-    let stringOnly = true
-
-    // arr.forEach((item) => {
-    //   typeof item === 'string'
-    //     ? stringOnly = true
-    //     : stringOnly = false
-    // })
-
+    let isString = true
     for (const item of arr) {
       typeof item === 'string'
-      ? stringOnly = true
-      : stringOnly = false
+      ? isString = true
+      : isString = false
     }
 
-    stringOnly === true
-      ? resolve(arr)
-      : reject(arr)
+    isString === true
+    ? resolve(arr)
+    : reject('array contains at least one non string data')
+  }
+  )}
 
-  })
+
+checkArrString(complicatedArray)
+.then((arr) => {
+  let capArr = makeAllCaps(arr)
+  console.log(capArr)
+  return capArr
+})
+.then((capArr) => console.log(sortWords(capArr)))
+.catch(err => console.log(`there is an error: ${err}`))
+
+const checkString = (arr) => {
+  let result = []
+  for (const item of arr) {
+    typeof item === 'string'
+    ? result.push(true)
+    : result.push(false)
+  }
+  return result
 }
-
-makeAllCaps(arrayOfWords)
-  .then((arr) => {
-    let upperCaseArr = arr.map((item) => item.toUpperCase())
-    console.log(upperCaseArr)
-  })
-  .catch((error) => console.log("There is an error: ${error}"))
-
-const sortWords = (arr) => {
-  return new Promise((resolve, reject) => {
-    let stringOnly = true
-
-    // arr.forEach((item) => {
-    //   typeof item === 'string'
-    //     ? stringOnly = true
-    //     : stringOnly = false
-    // })
-
-    for (const item of arr) {
-      typeof item === 'string'
-      ? stringOnly = true
-      : stringOnly = false
-    }
-
-    stringOnly === true
-      ? resolve(arr)
-      : reject(arr)
-
-  })
-}
-
-sortWords(arrayOfWords)
-  .then((arr) => console.log(arr.sort()))
-  .catch((error) => console.log("There is an error: ${error}"))
-
-// // chain functions Not working
-// let capFirst = makeAllCaps(arrayOfWords)
-// let sortSecond = sortWords(capFirst)
-
-
 
 //4.
-// a. Create a variable, totalSales that creates a promise.
-// b. Within the promise create a reject handler for errors and a resolve handler that resolves a copy of the array that is inside the json object.
-// c. Call or rather consume your totalSales promise
-// d. Use your thenable to log the data for all the companies in the Legal industry
-// e. pass the data for all the companies in the Legal industry to the next thenable
-// f. Chain again and find all the names of the people in the legal industry and log those names in a string: "Contacts from the legal profession:" + list all of the names
-// g. In that same thenable return 30% of each of the sales and pass the value to the next thenable
-// h. Add all of the sales totals together and return a string saying: "Total sales for everyone from the Legal profession after taxes is $30000" if the value of the added sales is 30000
+
 const json = {
   data: [
     {
@@ -201,24 +169,48 @@ const json = {
   ],
 };
 
-// 5. Based on given athlets array
-//a.  Write a function called playerFunction that returns a promise which copies the array into a new array called 'playerArr'.
-// Make sure your function is re-useable so no hard coded values.
+// a. Create a variable, totalSales that creates a promise.
+// b. Within the promise create a reject handler for errors and a resolve handler that resolves a copy of the array that is inside the json object.
+const totalSales = new Promise((resolve, reject) => {
+  const { data } = json
+  resolve(data)
+  reject('there is an error')
+})
+// c. Call or rather consume your totalSales promise
+totalSales
+  // d. Use your thenable to log the data for all the companies in the Legal industry
+  .then((arr) => arr.filter(({ industry }) => industry === 'Legal'))
+  // e. pass the data for all the companies in the Legal industry to the next thenable
+  // f. Chain again and find all the names of the people in the legal industry and log those names in a string: "Contacts from the legal profession:" + list all of the names
+  .then((legalCompany) => {
+    const names = legalCompany.map(({ name }) => name)
+    console.log(`Contacts from the legal profession:\n${names.join(`\n`)}`)
+    // g. In that same thenable return 30% of each of the sales and pass the value to the next thenable
+    return legalCompany.map(({ sales }) => sales * 0.3)
+  })
+  // h. Add all of the sales totals together and return a string saying: "Total sales for everyone from the Legal profession after taxes is $30000" if the value of the added sales is 30000
+  .then((thirtyPercentOfSales) => {
+    const totalSales = thirtyPercentOfSales.reduce((accumulator, item) => accumulator += item)
+    console.log(`Total sales for everyone from the Legal profession after taxes is $${totalSales}`)
+  })
+
+// 5. Based on given athletes array
+
+//a.  Write a function called playerFunction that returns a promise which copies the array into a new array called 'playerArr'. Make sure your function is re-useable so no hard coded values.
 //b. Now invoke the function
 // loop through the function using array method and Place a key value pair into each object based on the player's position.
 //If the position is guard then add sport:'basketball'
 // If the position is quarterback add sport:'football'
 // Use a ternary to solve this.
 // Note: There can only be two sports either football or basketball and only two positions guard and quarterback
-//c.
-// Log (console.log) the whole array with the sport added for each object. Preface the list with a 'Sport added: ' string.
-// console.log('---------') to separate a section.
 //d.
 // In your next thenable, Console.log a string like the example below for each player:
 // 'Tom Bradshaw plays football and is a quarterback for the Pittsburgh Steelers'
 // Only choose the players who play football and use deconstruction and the ternary operator to complete this piece
 //e. In the next thenable, console.log the original array to show it has not been mutated
 //f. Be sure to include you Promise Error Handling using the catch
+
+
 let athletes = [
   {
     name: 'Tom Brady',
@@ -245,11 +237,65 @@ let athletes = [
     position: 'quarterback',
     team: 'Seattle Seahawks',
   },
-  { name: 'Chris Paul', position: 'guard', team: 'Oklahoma City Thunder' },
-  { name: "D'Angelo Russell", position: 'guard', team: 'Golden Warriors' },
+  {
+    name: 'Chris Paul',
+    position: 'guard',
+    team: 'Oklahoma City Thunder'
+  },
+  {
+    name: "D'Angelo Russell",
+    position: 'guard',
+    team: 'Golden Warriors'
+  },
   {
     name: 'Eli Manning',
     position: 'quarterback',
     team: 'NY Giants',
   },
 ];
+
+
+const playerFunction = (arr) => {
+  return new Promise((resolve) => {
+    resolve(arr)
+  })
+}
+
+playerFunction(athletes)
+  .then((originalArr) => {
+    const deepCopyOriginalArr = JSON.parse(JSON.stringify(originalArr))
+    deepCopyOriginalArr.map((item) => {
+      item.position === 'guard'
+        ? item.sport = 'football'
+        : item.sport = 'basketball'
+    })
+
+    deepCopyOriginalArr.forEach(({ name, position, team, sport }) =>
+      console.log(`
+    Name: ${name}
+    Position: ${position}
+    Team: ${team}
+    Sport Added: ${sport}
+    --------------
+    `))
+    return originalArr
+  })
+  .then((originalArr) => {
+    const deepCopyOriginalArr = JSON.parse(JSON.stringify(originalArr))
+    deepCopyOriginalArr.map((item) => {
+      item.position === 'guard'
+        ? item.sport = 'football'
+        : item.sport = 'basketball'
+    })
+    deepCopyOriginalArr.forEach(({ name, sport, position, team }) => {
+      if (position === 'football') {
+        console.log(`${name} plays ${sport} and is a ${position} for the ${team}`)
+      }
+    })
+    return originalArr
+  })
+  .then((originalArr) => console.log(originalArr))
+  .catch((err) => console.log(`There is an error: ${err}`))
+
+
+
